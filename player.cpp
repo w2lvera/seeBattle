@@ -125,10 +125,35 @@ void Player::shot(Player& p) {
 
     if(p.pole[x][y].number>0){////!=emptyShip && pole[x][y]!=ship0){
         //ship is wond or kil
-       // printf("  %d  %d %d \n",x,y,pole[x][y].number);
-       // printPole();
+
        p.pole[x][y].wound(x,y);
-        p.printPole1();
+       int number = p.pole[x][y].number;
+       int i=1;
+       //echo
+       if(p.pole[x][y].vert == 1){
+
+           while(p.pole[x][y+i].number==number) {
+               p.pole[x][y+i].deckShot--;
+               i++;
+           }
+           i=1;
+           while(p.pole[x][y-i].number==number) {
+               p.pole[x][y-i].deckShot--;
+               i++;
+           }
+       }
+       else{
+           while(p.pole[x+i][y].number==number) {
+               p.pole[x+i][y].deckShot--;
+               i++;
+           }
+           i=1;
+           while(p.pole[x-i][y].number==number) {
+               p.pole[x-i][y+i].deckShot--;
+               i++;
+           }
+       }
+
        p.pole[x][y].x = -2;
         if(p.pole[x][y].kil()){ p.n_Ships--;
 

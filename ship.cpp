@@ -22,6 +22,7 @@ void Ship::wound(int x,int y){
 //    wounds[deckShot][0]=x;
 //    wounds[deckShot][1]=y;
     deckShot--;
+
 }
 bool Ship::isWound(int x,int y){
     for(int i=number;i>=this->deckShot;i--)
