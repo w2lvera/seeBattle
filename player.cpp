@@ -5,142 +5,146 @@
 // this->hp = 20;
 //   this->name = str;
 //}
+Player::Player(){
+    for(int i=0;i<BOARD_SIZE_BIG;i++){
+        for(int j=0;j<BOARD_SIZE_BIG;j++){
+
+            pole[i][j]=emptyShip;
+        }
+
+    }
+
+}
+void Player::create_environment(int deck,int x,int y,int gor){
+
+    if(gor){
+
+    pole[x][y+deck]=ship0;
+    pole[x-1][y-1]=pole[x+1][y-1]=pole[x][y-1]=ship0;
+    for(int i=0;i<deck+1;i++){
+            pole[x-1][y+i]=pole[x+1][y+i]=ship0;
+        }
+    }
+    else{
+        pole[x+deck][y]=ship0;
+        pole[x-1][y-1]=pole[x-1][y+1]=pole[x-1][y]=ship0;
+        for(int i=0;i<deck+1;i++){
+           pole[x+i][y-1]=pole[x+i][y+1]=ship0;
+        }
+    }
+}
+int Player::veriffication(int deck,int x,int y,int gor){
+    int flag = 1;
+    if(gor){
+       for(int i=0;i<deck+1;i++)
+           if(pole[x][y+i].number!=-1){
+               flag=0;
+               break;
+           }
+
+    }
+    else {
+        for(int i=0;i<deck+1;i++)
+            if(pole[x+i][y].number!=-1){
+                flag=0;
+                break;
+            }
+    }
+    return flag;
+}
+void Player::create_ships(){
+    int k=4;
+    int deck;
+    for(deck = 4;deck>0;deck--){
+       int k=0;
+       do{
+            while(1){
+                int x = 1+rand() % BOARD_SIZE;
+                int y = 1+rand() % (BOARD_SIZE - deck+1);
+                if(veriffication(deck,x,y,1))
+                {
+                    Ship ship{deck,x,y,1};
+                    for(int i=0;i<deck;i++) pole[x][y+i]=ship;
+                    create_environment(deck,x,y,1);
+                            break;
+                }
+                x = 1+rand() % (BOARD_SIZE- deck+1);
+                y = 1+rand() % (BOARD_SIZE );
+                if(veriffication(deck,x,y,0))
+                {
+                    Ship ship{deck,x,y,0};
+                    for(int i=0;i<deck;i++) pole[x+i][y]=ship;
+                    create_environment(deck,x,y,0);
+                    break;
+                }
+            }
+            n_Ships++;
+            k++;
+        }
+        while(k<4-deck+1);
+
+    }
+
+}
+void Player::printPole(){
+    for(int i=0;i<BOARD_SIZE_BIG;i++){
+        for(int j=0;j<BOARD_SIZE_BIG;j++){
+
+            printf("%4d ",pole[i][j].number);
+        }
+        printf("\n");
+    }
+}
+void Player::printPole1(){
+    for(int i=0;i<BOARD_SIZE_BIG;i++){
+        for(int j=0;j<BOARD_SIZE_BIG;j++){
+
+            printf("%4d ",pole[i][j].deckShot);
+        }
+        printf("\n");
+    }
+}
 const char* Player::getName(){
     return name.c_str();
 }
-bool Player::check_for_ship_positioning(int x, int y, std::vector<Point> sub_vector) {
+void Player::decreaseShips(){ this->n_Ships--;}
 
-    if (std::count(sub_vector.begin(), sub_vector.end(), Point(x, y)) >= 1 || ((std::count(sub_vector.begin(), sub_vector.end(), Point(x, y - 1)) >= 1) ||
-        (std::count(sub_vector.begin(), sub_vector.end(), Point(x, y + 1)) >= 1)
-        || (std::count(sub_vector.begin(), sub_vector.end(), Point(x - 1, y)) >= 1) || (std::count(sub_vector.begin(), sub_vector.end(), Point(x - 1, y + 1)) >= 1)
-        || (std::count(sub_vector.begin(), sub_vector.end(), Point(x - 1, y - 1)) >= 1) || (std::count(sub_vector.begin(), sub_vector.end(), Point(x + 1, y)) >= 1)
-        || (std::count(sub_vector.begin(), sub_vector.end(), Point(x + 1, y + 1)) >= 1) || (std::count(sub_vector.begin(), sub_vector.end(), Point(x + 1, y - 1)) >= 1))) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-void Player::create_player_ships(){
-     /* srand(static_cast<unsigned>(time(NULL)));*/
-        int count_of_four = 1;
-        for (int i = 0; i < count_of_four;) {
-            int vert = 0 + rand() % 2;
-            if (vert == 0) {
-                int x = rand() % BOARD_SIZE;
-                int y = rand() % (BOARD_SIZE - 3);
-                if (check_for_ship_positioning(x, y, player_ships) && check_for_ship_positioning(x, y + 1, player_ships) && check_for_ship_positioning(x, y + 2, player_ships)
-                    && check_for_ship_positioning(x, y + 3, player_ships)) {
-                    player_ships.push_back(Point(x, y));
-                    player_ships.push_back(Point(x, y + 1));
-                    player_ships.push_back(Point(x, y + 2));
-                    player_ships.push_back(Point(x, y + 3));
-                    i++;
-                }
-            }
-            else if (vert == 1) {
 
-                int x = rand() % (BOARD_SIZE - 3);;
-                int y = rand() % BOARD_SIZE;
-                if (check_for_ship_positioning(x, y, player_ships) && check_for_ship_positioning(x + 1, y, player_ships) && check_for_ship_positioning(x + 2, y, player_ships)
-                    && check_for_ship_positioning(x + 3, y, player_ships)) {
-                    player_ships.push_back(Point(x, y));
-                    player_ships.push_back(Point(x + 1, y));
-                    player_ships.push_back(Point(x + 2, y));
-                    player_ships.push_back(Point(x + 3, y));
-                    i++;
-                }
-            }
-        }
-        int count_of_tre = 2;
-        for (int j = 0; j < count_of_tre;) {
-            int vert = 0 + rand() % 2;
-            if (vert == 0) {
-                int x = rand() % BOARD_SIZE;
-                int y = rand() % (BOARD_SIZE - 2);
-                if (check_for_ship_positioning(x, y, player_ships) && check_for_ship_positioning(x, y + 1, player_ships) && check_for_ship_positioning(x, y + 2, player_ships)) {
-                    player_ships.push_back(Point(x, y));
-                    player_ships.push_back(Point(x, y + 1));
-                    player_ships.push_back(Point(x, y + 2));
-                    j++;
-                }
-            }
-            if (vert == 1) {
-                int x = rand() % (BOARD_SIZE - 2);
-                int y = rand() % BOARD_SIZE;
-                if (check_for_ship_positioning(x, y, player_ships) && check_for_ship_positioning(x + 1, y, player_ships) && check_for_ship_positioning(x + 2, y, player_ships)) {
-                    player_ships.push_back(Point(x, y));
-                    player_ships.push_back(Point(x + 1, y));
-                    player_ships.push_back(Point(x + 2, y));
-                    j++;
-                }
-            }
-        }
-        int count_of_two = 3;
-        for (int k = 0; k < count_of_two;) {
-            int vert = 0 + rand() % 2;
-            if (vert == 0) {
-                int x = rand() % BOARD_SIZE;
-                int y = rand() % (BOARD_SIZE - 1);
-                if (check_for_ship_positioning(x, y, player_ships) && check_for_ship_positioning(x, y + 1, player_ships)) {
-                    player_ships.push_back(Point(x, y));
-                    player_ships.push_back(Point(x, y + 1));
-                    k++;
-                }
-            }
-            if (vert == 1) {
-                int x = rand() % (BOARD_SIZE - 1);
-                int y = rand() % BOARD_SIZE;
-                if (check_for_ship_positioning(x, y, player_ships) && check_for_ship_positioning(x + 1, y, player_ships)) {
-                    player_ships.push_back(Point(x, y));
-                    player_ships.push_back(Point(x + 1, y));
-                    k++;
-                }
-            }
-        }
-        int count_of_one = 4;
-        for (int q = 0; q < count_of_one;) {
-            int x = rand() % BOARD_SIZE;
-            int y = rand() % BOARD_SIZE;
-            if (check_for_ship_positioning(x, y, player_ships) == true) {
-                player_ships.push_back(Point(x, y));
-                q++;
-            }
-        }
-
-}
-
-void Player::decreaseShips(){ this->hp--;}
-int Player::find_index(Point coords, std::vector<Point> vec) {
-    auto it = std::find(vec.begin(), vec.end(), coords);
-    int index = std::distance(vec.begin(), it);
-    return index;
-}
 void Player::shot(Player& p) {
-    shot_coordinate.setXY(rand() % BOARD_SIZE, rand() % BOARD_SIZE);
+    int x=1+rand() % BOARD_SIZE;
+    int y=1+rand() % BOARD_SIZE;
+    shot_coordinate.setXY(x,y);
     //repeat until we reach a new point
     while (std::count(already_shoted.begin(), already_shoted.end(), shot_coordinate) != 0) {
-        shot_coordinate.setXY(rand() % BOARD_SIZE, rand() % BOARD_SIZE);
+         x=1+rand() % BOARD_SIZE;
+         y=1+rand() % BOARD_SIZE;
+        shot_coordinate.setXY(x,y);
     }
-
+    already_shoted.push_back(shot_coordinate);
     message = "";
-    if (std::count(p.getPlayerShips().begin(), p.getPlayerShips().end(), shot_coordinate) >= 1) {
-        p.getPlayerShips().erase(p.getPlayerShips().begin() + find_index(shot_coordinate, p.getPlayerShips()));
-        message =  " hit an enemy ship \n";
-        already_shoted.push_back(shot_coordinate);
-        p.decreaseShips();
 
+    if(p.pole[x][y].number>0){////!=emptyShip && pole[x][y]!=ship0){
+        //ship is wond or kil
+       // printf("  %d  %d %d \n",x,y,pole[x][y].number);
+       // printPole();
+       p.pole[x][y].wound(x,y);
+        p.printPole1();
+       p.pole[x][y].x = -2;
+        if(p.pole[x][y].kil()){ p.n_Ships--;
+
+        }
+
+       // printf("  %d  %d %s \n",x,y,"str");
+        message =  " wound an enemy ship\n";
+        already_shoted.push_back(shot_coordinate);
     }
     else {
         message = " miss \n";
         already_shoted.push_back(shot_coordinate);
-
     }
 }
 
-std::vector<Point>& Player::getPlayerShips(){
-    return this->player_ships;
-}
+
 std::vector<Point>& Player::getAlready_shoted(){
     return this->already_shoted;
 }
@@ -150,8 +154,8 @@ void Player::setMessage(std::string str){
 const char* Player::getMessage(){
     return message.c_str();
 }
-int Player::getHp(){
-    return hp;
+int Player::getShips(){
+    return n_Ships;
 }
 void Player::setName(std::string str){
     name = str;

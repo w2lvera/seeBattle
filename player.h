@@ -4,33 +4,48 @@
 #include <cstdlib>
 //#include <ctime>
 #include <algorithm>
-#include "point.h"
+
 #include <string>
+#include<stdio.h>
+#include "point.h"
+#include "ship.h"
 #define BOARD_SIZE 10
+#define BOARD_SIZE_BIG BOARD_SIZE+2
+#define N_SHIPS 10
 class Player
 {
 private:
     int find_index(Point coords, std::vector<Point> vec);
     bool check_for_ship_positioning(int x, int y, std::vector<Point> sub_vector);
+    void create_environment(int x,int y,int deck,int vert);
+    int veriffication(int x,int y,int deck,int vert);
 public:
     std::string name;
     std::string message="";
-    std::vector<Point> player_ships;
+    Ship pole[BOARD_SIZE_BIG][BOARD_SIZE_BIG];
+
+    Ship emptyShip{-1,-1,-1,0};
+    Ship ship0{0,0,0,0};
+    void printPole();
+    void printPole1();
+    void create_ships();
+    int n_Ships;
     std::vector<Point> already_shoted;
     Point shot_coordinate;
     int hp;
    // Player(const char* str);
-    Player(){hp = 20;}
+    Player();
     const char* getName();
-    void create_player_ships();
-    std::vector<Point>& getPlayerShips();
+//    void create_player_ships();
+//    std::vector<Point>& getPlayerShips();
     std::vector<Point>& getAlready_shoted();
     void setMessage(std::string str);
     const char* getMessage();
     void shot(Player& p);
     void decreaseShips();
-    int getHp();
+    int getShips();
     void setName(std::string str);
+    bool isWound(int x,int y);
 
 };
 

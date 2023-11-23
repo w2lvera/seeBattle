@@ -1,6 +1,6 @@
 #ifndef GAMEALL_H
 #define GAMEALL_H
-#define BOARD_SIZE 10
+//#define BOARD_SIZE 10
 #include "player.h"
 #include "view.h"
 
