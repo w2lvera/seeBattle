@@ -49,9 +49,9 @@ void View::print_result_board(Player& activePlayer,Player& passivePlayer) {
     for(int i=1;i<BOARD_SIZE+1;i++){
        for(int j=1;j<BOARD_SIZE+1;j++){
            char h;
-           if(passivePlayer.pole[i][j].number>0){
-            h=passivePlayer.pole[i][j].number+'0';
-            if(passivePlayer.pole[i][j].x<-1)h ='X';//wound
+           if(passivePlayer.pole[i][j].isShip()){
+            h=passivePlayer.pole[i][j].getDeck()+'0';
+            if(passivePlayer.pole[i][j].isWounded())h ='X';//wound
             boardShips[i-1][j-1]=h;
            }
         }

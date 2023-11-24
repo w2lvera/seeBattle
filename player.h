@@ -17,7 +17,7 @@ class Player
 private:
     int find_index(Point coords, std::vector<Point> vec);
     bool check_for_ship_positioning(int x, int y, std::vector<Point> sub_vector);
-    void create_environment(int x,int y,int deck,int vert);
+    void create_environment(int x,int y,int deck,int vert,Ship& s);
     int veriffication(int x,int y,int deck,int vert);
 public:
     std::string name;
@@ -26,6 +26,7 @@ public:
 
     Ship emptyShip{-1,-1,-1,0};
     Ship ship0{0,0,0,0};
+    Ship kilShip{0,0,0,0};
     void printPole();
     void printPole1();
     void create_ships();

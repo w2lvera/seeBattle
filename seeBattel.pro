@@ -5,10 +5,10 @@ CONFIG -= qt
 
 SOURCES += \
     gameall.cpp \
-    player.cpp \
     view.cpp \
     ship.cpp \
-    main.cpp
+    main.cpp \
+    player.cpp
 
 SUBDIRS +=
      seeBattel.pro

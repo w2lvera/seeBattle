@@ -4,18 +4,27 @@
 
 class Ship
 {
-public:
+private:
     int number;
     int deckShot;
     int x;
     int y;
     int vert;
-
-    int wounds[4][2];
+    int type;
+public:
     Ship(int n,int x,int y,int vert);
     Ship();
     Ship(const Ship& s);
-    bool isWound(int x,int y);
+    bool isShip();
+    bool isShip0();
+    bool isKilShip();
+    bool isWounded();
+    void setType(int x){type=x;}
+    int getX(){return x;}
+    int getY(){return y;}
+    int getVert(){return vert;}
+    int getDeck(){return number;}
+    int getType(){return type;}
     bool kil();
     void wound(int x,int y);
    // Ship& operator = (Ship& s);

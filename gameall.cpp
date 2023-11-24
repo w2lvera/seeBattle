@@ -12,10 +12,11 @@ GameAll::GameAll()
     p1.create_ships();
 
     p2.create_ships();
-
+    printf("\n nShips=%d \n",p2.getShips());
+     printf("\n nShips=%d \n",p1.getShips());
     activePlayer = p2;
     passivePlayer = p1;
-   // passivePlayer.printPole();
+    passivePlayer.printPole();
     //printf("\n");
     //printf("\nactivePlaer\n");
     //activePlayer.printPole();
@@ -23,7 +24,7 @@ GameAll::GameAll()
 }
 void GameAll::run(){
     while(true){
-
+        try{
         activePlayer.shot(passivePlayer);
         view.print_result_board(activePlayer,passivePlayer);
 
@@ -33,19 +34,25 @@ void GameAll::run(){
         passivePlayer = winner;
 
         Sleep(50);
-
-        //system("cls");
+        system("cls");
 
 
         printf("\n number of %s's ships   %d\n",passivePlayer.getName(),passivePlayer.getShips());
-        view.setcur(0,50);
-        view.print_result_board(activePlayer,passivePlayer);
+        printf("\n number of %s's ships   %d\n",activePlayer.getName(),activePlayer.getShips());
+//        view.setcur(0,50);
+//        view.print_result_board(activePlayer,passivePlayer);
         if(passivePlayer.getShips()==1){
             Sleep(5000);
         }
 
+        }
+        catch(const char* str){// if number shots > BOARD_SIZE*BOARD_SIZE
+            printf(str);
+            break;
+        }
+
     }
-    printf("\n game over                             \n");
+    printf("\n game over                             ");
     winner = activePlayer;
 
 }

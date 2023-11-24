@@ -7,8 +7,7 @@ Ship::Ship(int n,int x,int y,int vert)
     this->vert=vert;
     this->y = y;
     deckShot = number;
-    //type1=number;
-
+    type=number;
 }
 Ship::Ship(){}
 Ship::Ship(const Ship& s){
@@ -17,19 +16,26 @@ Ship::Ship(const Ship& s){
     this->vert=s.vert;
     this->y =s.y;
     this->deckShot = s.deckShot;
+    type=number;
 }
 void Ship::wound(int x,int y){
-//    wounds[deckShot][0]=x;
-//    wounds[deckShot][1]=y;
     deckShot--;
-
 }
-bool Ship::isWound(int x,int y){
-    for(int i=number;i>=this->deckShot;i--)
-        if(x==wounds[i][0]&& y==wounds[i][1])
-            return true;
+bool Ship::isWounded(){
+    if(type==-2)return true;
     return false;
-
+}
+bool Ship::isKilShip(){
+    if(type==-3) return true;
+    return false;
+}
+bool Ship::isShip(){
+    if(number>0)return true;
+    return false;
+}
+bool Ship::isShip0(){
+    if(number==0)return true;
+    return false;
 }
 bool Ship::kil(){return deckShot==0;}
 //Ship& Ship::operator = (Ship& s){
