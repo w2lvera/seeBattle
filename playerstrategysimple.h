@@ -24,7 +24,7 @@ public:
             if(p.pole[x][y].isShip()){
                //ship is wond or kil
                p.pole[x][y].wound(x,y);
-               p1.message =  " wound an enemy ship\n";
+               p1.message =  " wound an enemy ship";
                p.pole[x][y].setType(-2);
                if(p.pole[x][y].kil()){
                    p.decreaseShips();
@@ -42,7 +42,7 @@ public:
                }
             }
             //no ship
-            else    p1.message = " miss \n";
+            else    p1.message = " miss ";
         }
 
     }

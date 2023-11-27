@@ -63,7 +63,7 @@ public:
                 p.pole[x][y].wound(x,y);
                 p1.round=4;
                 p1.pointWound.setXY(x,y);
-                p1.message =  " wound an enemy ship\n";
+                p1.message =  " wound an enemy ship";
                 p.pole[x][y].setType(-2);
                 if(p.pole[x][y].kil()){
                     p.decreaseShips();
@@ -84,7 +84,7 @@ public:
                     for(int i=1;p.pole[x-i][y].isShip();p.pole[x-i][y].wound(x,y),i++);
                 }
             }
-            else    p1.message = " miss \n";
+            else    p1.message = " miss ";
         }
 
     }

@@ -12,6 +12,7 @@ public:
     void erase();
     void setcur(int x,int y);
     void print_result_board(Player& activePlayer,Player& passivePlayer);
+    void SetColor(int text, int background);
 };
 
 #endif // VIEW_H
