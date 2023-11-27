@@ -22,6 +22,8 @@ private:
     int n_Ships;
     void tabLeft(int pointDel);
     std::vector<Point> already_shoted;
+    int func1(int x);
+    int func2(int x);
 public:void deleteIndex(int x,int y);
 
 public:

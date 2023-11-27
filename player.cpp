@@ -4,7 +4,7 @@
 Player::Player(){
     for(int i=0;i<BOARD_SIZE_BIG;i++){
         for(int j=0;j<BOARD_SIZE_BIG;j++){
-           pole[i][j]=emptyShip;
+            pole[i][j]=emptyShip;
         }
     }
     n_Ships=0;
@@ -72,37 +72,75 @@ int Player::veriffication(int deck,int x,int y,int gor){
     }
     return flag;
 }
+int Player::func1(int deck){
+    int x = 1+rand() % BOARD_SIZE;
+    int y = 1+rand() % (BOARD_SIZE - deck+1);
+    if(veriffication(deck,x,y,1))
+    {
+        Ship ship{deck,x,y,1};
+        for(int i=0;i<deck;i++) pole[x][y+i]=ship;
+        create_environment(deck,x,y,1,ship0);
+        return 1;
+    }
+    return 0;
+}
+int Player::func2(int deck){
+    int x = 1+rand() % (BOARD_SIZE- deck+1);
+    int y = 1+rand() % (BOARD_SIZE );
+    if(veriffication(deck,x,y,0))
+    {
+        Ship ship{deck,x,y,0};
+        for(int i=0;i<deck;i++) pole[x+i][y]=ship;
+        create_environment(deck,x,y,0,ship0);
+        return 1;
+    }
+    return 0;
+}
 void Player::create_ships(){
     //int k=4;
     int deck;
     for(deck = 4;deck>0;deck--){
         int k=0;
+
         do{
+            int flag = rand()%2;
             while(1){
-                int x = 1+rand() % BOARD_SIZE;
-                int y = 1+rand() % (BOARD_SIZE - deck+1);
-                if(veriffication(deck,x,y,1))
-                {
-                    Ship ship{deck,x,y,1};
-                    for(int i=0;i<deck;i++) pole[x][y+i]=ship;
-                    create_environment(deck,x,y,1,ship0);
-                    break;
+                if(flag){
+                    if(func1(deck)) break;
+                    //if(func2(deck)) break ;
+
                 }
-                x = 1+rand() % (BOARD_SIZE- deck+1);
-                y = 1+rand() % (BOARD_SIZE );
-                if(veriffication(deck,x,y,0))
-                {
-                    Ship ship{deck,x,y,0};
-                    for(int i=0;i<deck;i++) pole[x+i][y]=ship;
-                    create_environment(deck,x,y,0,ship0);
-                    break;
+                else{
+                    if(func2(deck)) break;
+                    //if(func1(deck)) break;
                 }
             }
-            n_Ships++;
-            k++;
-        }
-        while(k<4-deck+1);
+
+            //                int x = 1+rand() % BOARD_SIZE;
+            //                int y = 1+rand() % (BOARD_SIZE - deck+1);
+            //                if(veriffication(deck,x,y,1))
+            //                {
+            //                    Ship ship{deck,x,y,1};
+            //                    for(int i=0;i<deck;i++) pole[x][y+i]=ship;
+            //                    create_environment(deck,x,y,1,ship0);
+            //                    break;
+            //                }
+            //                else
+            //                x = 1+rand() % (BOARD_SIZE- deck+1);
+            //                y = 1+rand() % (BOARD_SIZE );
+            //                if(veriffication(deck,x,y,0))
+            //                {
+            //                    Ship ship{deck,x,y,0};
+            //                    for(int i=0;i<deck;i++) pole[x+i][y]=ship;
+            //                    create_environment(deck,x,y,0,ship0);
+            //                    break;
+            //                }
+        //}
+        n_Ships++;
+        k++;
     }
+    while(k<4-deck+1);
+}
 }
 void Player::printPole(){
     for(int i=0;i<BOARD_SIZE_BIG;i++){

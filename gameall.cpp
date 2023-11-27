@@ -10,7 +10,7 @@ GameAll::GameAll()
     pss = new PlayerStrategySimple();
     psh = new PlayerStrategHeuristic();
     pssy = new PlayerStrategySuper();
-    p2.setPlayerStrategy(pss);
+    p2.setPlayerStrategy(psh);
     p1.setPlayerStrategy(pssy);
 
     p1.create_ships();
@@ -19,11 +19,11 @@ GameAll::GameAll()
     activePlayer = p2;
     passivePlayer = p1;
 
-   // passivePlayer.printPole();
+    passivePlayer.printPole();
 
-    //printf("\n");
-    //printf("\nactivePlayer\n");
-    //activePlayer.printPole();
+    printf("\n");
+    printf("\nactivePlayer\n");
+    activePlayer.printPole();
     //view.print_result_board(activePlayer,passivePlayer);
 }
 void GameAll::run(){
