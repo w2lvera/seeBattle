@@ -4,8 +4,8 @@
 #include "gameall.h"
 int main(){
     srand(time(NULL));
-   GameAll gameAll;
-   gameAll.run();
+    GameAll gameAll;
+    gameAll.run();
     printf("\n winner is %s                               ",gameAll.getWinner());
     return 0;
 }

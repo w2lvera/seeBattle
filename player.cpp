@@ -72,7 +72,7 @@ int Player::veriffication(int deck,int x,int y,int gor){
     }
     return flag;
 }
-int Player::func1(int deck){
+int Player::gorizont(int deck){
     int x = 1+rand() % BOARD_SIZE;
     int y = 1+rand() % (BOARD_SIZE - deck+1);
     if(veriffication(deck,x,y,1))
@@ -84,7 +84,7 @@ int Player::func1(int deck){
     }
     return 0;
 }
-int Player::func2(int deck){
+int Player::verticall(int deck){
     int x = 1+rand() % (BOARD_SIZE- deck+1);
     int y = 1+rand() % (BOARD_SIZE );
     if(veriffication(deck,x,y,0))
@@ -106,41 +106,18 @@ void Player::create_ships(){
             int flag = rand()%2;
             while(1){
                 if(flag){
-                    if(func1(deck)) break;
-                    //if(func2(deck)) break ;
-
+                    if(gorizont(deck)) break;
                 }
                 else{
-                    if(func2(deck)) break;
-                    //if(func1(deck)) break;
+                    if(verticall(deck)) break;
                 }
             }
 
-            //                int x = 1+rand() % BOARD_SIZE;
-            //                int y = 1+rand() % (BOARD_SIZE - deck+1);
-            //                if(veriffication(deck,x,y,1))
-            //                {
-            //                    Ship ship{deck,x,y,1};
-            //                    for(int i=0;i<deck;i++) pole[x][y+i]=ship;
-            //                    create_environment(deck,x,y,1,ship0);
-            //                    break;
-            //                }
-            //                else
-            //                x = 1+rand() % (BOARD_SIZE- deck+1);
-            //                y = 1+rand() % (BOARD_SIZE );
-            //                if(veriffication(deck,x,y,0))
-            //                {
-            //                    Ship ship{deck,x,y,0};
-            //                    for(int i=0;i<deck;i++) pole[x+i][y]=ship;
-            //                    create_environment(deck,x,y,0,ship0);
-            //                    break;
-            //                }
-        //}
-        n_Ships++;
-        k++;
+            n_Ships++;
+            k++;
+        }
+        while(k<4-deck+1);
     }
-    while(k<4-deck+1);
-}
 }
 void Player::printPole(){
     for(int i=0;i<BOARD_SIZE_BIG;i++){
