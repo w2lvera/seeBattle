@@ -26,4 +26,4 @@ HEADERS += \
     playerstrategy.h \
     playerstrategysimple.h \
     playerstrategheuristic.h \
-    playerstrategysyper.h
+    playerstrategysuper.h

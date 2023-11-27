@@ -3,22 +3,19 @@
 
 GameAll::GameAll()
 {
-
-
     std::string s1 = "first player";
     p1.setName(s1);
     s1 = "second player";
     p2.setName(s1);
     pss = new PlayerStrategySimple();
     psh = new PlayerStrategHeuristic();
-    pssy = new PlayerStrategySyper();
-    p2.setPlayerStrategy(pss);
+    pssy = new PlayerStrategySuper();
+    p2.setPlayerStrategy(psh);
     p1.setPlayerStrategy(pssy);
-    p1.create_ships();
 
+    p1.create_ships();
     p2.create_ships();
-    printf("\n nShips=%d \n",p2.getShips());
-    printf("\n nShips=%d \n",p1.getShips());
+
     activePlayer = p2;
     passivePlayer = p1;
     passivePlayer.printPole();
@@ -56,7 +53,7 @@ void GameAll::run(){
             printf("\n number of %s's ships   %d number of sot's %d\n",activePlayer.getName(),activePlayer.getShips(),activePlayer.n_neverShotedField);
 
             if(passivePlayer.getShips()==1 || activePlayer.getShips()==1){
-                 Sleep(5000);
+                Sleep(5000);
             }
             else{
                 Sleep(50);
@@ -69,11 +66,8 @@ void GameAll::run(){
             printf(str);
             break;
         }
-
     }
     printf("\n game over                             ");
-
-
 }
 const char* GameAll::getWinner(){
     return winner.getName();

@@ -4,7 +4,7 @@ Ship::Ship(int n,int x,int y,int vert)
 {
     number = n;
     this->x=x;
-    this->vert=vert;
+    this->horizontal=vert;
     this->y = y;
     deckShot = number;
     type=number;
@@ -13,7 +13,7 @@ Ship::Ship(){}
 Ship::Ship(const Ship& s){
     this->number = s.number;
     this->x=s.x;
-    this->vert=s.vert;
+    this->horizontal=s.horizontal;
     this->y =s.y;
     this->deckShot = s.deckShot;
     type=number;
@@ -50,14 +50,14 @@ bool Ship::kil(){return deckShot==0;}
 bool Ship::operator != (Ship& s){
     return this->number != s.number||
     this->x!=s.x ||
-    this->vert!=s.vert ||
+    this->horizontal!=s.horizontal ||
     this->y !=s.y ||
     this->deckShot != s.deckShot;
 }
 bool Ship::operator == (Ship& s){
     return this->number == s.number&&
     this->x ==s.x &&
-    this->vert==s.vert &&
+    this->horizontal==s.horizontal &&
     this->y ==s.y &&
     this->deckShot == s.deckShot;
 }

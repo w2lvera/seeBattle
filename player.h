@@ -21,6 +21,7 @@ private:
     std::string name;
     int n_Ships;
     void tabLeft(int pointDel);
+    std::vector<Point> already_shoted;
 public:void deleteIndex(int x,int y);
 
 public:
@@ -40,14 +41,12 @@ public:
     Ship emptyShip{-1,-1,-1,0}; // ship to indicate empty field: number = -1
     // ship to indicate the surrounding fields of a ship
     Ship ship0{0,0,0,0}; //used when forming a field with ships: number = 0
-    // ship to indicate the surrounding fields of kil ship
-    Ship kilShip{0,0,0,0};// type=-3: used for heuristic strategy and super strategy
     int round=0;//used for super strategy
     Point pointWound;//Point of wound ship: used for super strategy
     /////////////////////// used for shot /////////////
-    std::vector<Point> already_shoted;
-    Point neverShotedField[BOARD_SIZE*BOARD_SIZE];
-    int n_neverShotedField = BOARD_SIZE*BOARD_SIZE;
+
+    Point neverShotedField[BOARD_SIZE*BOARD_SIZE];//coordinates where the player did not shoot
+    int n_neverShotedField = BOARD_SIZE*BOARD_SIZE;//number of available shot
     Point createRandomShot();// create a random shot
 
     ///////////////////// function for debugging //////
@@ -64,11 +63,10 @@ public:
     std::vector<Point>& getAlready_shoted();
     void setMessage(std::string str);
     const char* getMessage();
-
     void decreaseShips();
     int getShips();
     void setName(std::string str);
-    bool isWound(int x,int y);
+    void addShot(Point p);
 
 };
 

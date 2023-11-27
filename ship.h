@@ -9,10 +9,10 @@ private:
     int deckShot;
     int x;
     int y;
-    int vert;
+    int horizontal;
     int type;
 public:
-    Ship(int n,int x,int y,int vert);
+    Ship(int n,int x,int y,int horizontal);
     Ship();
     Ship(const Ship& s);
     bool isShip();
@@ -22,7 +22,7 @@ public:
     void setType(int x){type=x;}
     int getX(){return x;}
     int getY(){return y;}
-    int getVert(){return vert;}
+    int getHorizontal(){return horizontal;}
     int getDeck(){return number;}
     int getType(){return type;}
     bool kil();
