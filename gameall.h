@@ -3,6 +3,9 @@
 //#define BOARD_SIZE 10
 
 #include "player.h"
+#include "playerstrategheuristic.h"
+#include "playerstrategysimple.h"
+#include "playerstrategysyper.h"
 #include "view.h"
 
 class GameAll
@@ -13,6 +16,9 @@ public:
     Player activePlayer;
     Player passivePlayer;
     Player winner;
+    PlayerStrategySimple* pss;
+    PlayerStrategHeuristic* psh;
+    PlayerStrategySyper* pssy;
     View view;
     GameAll();
     void run();

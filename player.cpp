@@ -15,6 +15,15 @@ Player::Player(){
     }
     n_Ships=0;
     kilShip.setType(-3);
+    Point p;
+    for(int i=0;i<n_neverShotedField;i++){
+        p.setXY(i/BOARD_SIZE+1,i%BOARD_SIZE+1);
+        neverShotedField[i]=p;
+    }
+
+//    for(int i=0;i<n_neverShotedField;i++){
+//        printf("%d %d   ",neverShotedField[i].x,neverShotedField[i].y);
+//    }
 
 }
 void Player::create_environment(int deck,int x,int y,int gor,Ship& ship){
@@ -32,6 +41,26 @@ void Player::create_environment(int deck,int x,int y,int gor,Ship& ship){
         pole[x-1][y-1]=pole[x-1][y+1]=pole[x-1][y]=ship;
         for(int i=0;i<deck+1;i++){
            pole[x+i][y-1]=pole[x+i][y+1]=ship;
+        }
+    }
+}
+void Player::delete_environment(int deck,int x,int y,int gor){
+
+    if(gor){
+
+    deleteIndex(x,y+deck);
+    deleteIndex(x-1,y-1);  deleteIndex(x+1,y-1); deleteIndex(x,y-1);
+    for(int i=0;i<deck+1;i++){
+             deleteIndex(x-1,y+i);
+             deleteIndex(x+1,y+i);
+        }
+    }
+    else{
+         deleteIndex(x+deck,y);
+         deleteIndex(x-1,y-1);  deleteIndex(x-1,y+1); deleteIndex(x-1,y);
+        for(int i=0;i<deck+1;i++){
+            deleteIndex(x+i,y-1);
+            deleteIndex(x+i,y+1);
         }
     }
 }
@@ -110,48 +139,71 @@ const char* Player::getName(){
     return name.c_str();
 }
 void Player::decreaseShips(){ this->n_Ships--;}
-
-
-void Player::shot(Player& p) {
-    int x;
-    int y;
-    int count=0;
-    //repeat until we reach a new point or the point isn't point0
-    x=1+rand() % BOARD_SIZE;
-    y=1+rand() % BOARD_SIZE;
-    while (std::count(already_shoted.begin(), already_shoted.end(), shot_coordinate) != 0 || p.pole[x][y].isKilShip()) {
-         count++;
-         if(count>BOARD_SIZE*BOARD_SIZE) throw "no empty square";
-         x=1+rand() % BOARD_SIZE;
-         y=1+rand() % BOARD_SIZE;
-        shot_coordinate.setXY(x,y);
-    }
-    already_shoted.push_back(shot_coordinate);
-    message = "";
-
-    if(p.pole[x][y].isShip()){
-       //ship is wond or kil
-       p.pole[x][y].wound(x,y);
-       message =  " wound an enemy ship\n";
-       p.pole[x][y].setType(-2);
-       if(p.pole[x][y].kil()){
-           p.n_Ships--;
-           p.create_environment(p.pole[x][y].getDeck(),p.pole[x][y].getX(),p.pole[x][y].getY(),p.pole[x][y].getVert(),kilShip);
-          // p.printPole1();
-       }
-
-       //echo
-       if(p.pole[x][y].getVert() == 1){
-           for(int i=1;p.pole[x][y+i].isShip();p.pole[x][y+i].wound(x,y),i++);
-           for(int i=1;p.pole[x][y-i].isShip();p.pole[x][y-i].wound(x,y),i++);
-       }
-       else{
-           for(int i=1;p.pole[x+i][y].isShip();p.pole[x+i][y].wound(x,y),i++);
-           for(int i=1;p.pole[x-i][y].isShip();p.pole[x-i][y].wound(x,y),i++);
-       }
-    }
-    else    message = " miss \n";
+void Player::tabLeft(int pointDel){
+    for(int i = pointDel;i<n_neverShotedField-1;i++)
+        neverShotedField[i]=neverShotedField[i+1];
+    n_neverShotedField--;
 }
+void Player::deleteIndex(int x,int y ){
+    int i;
+    Point p;
+    p.setXY(x,y);
+    for(i = 0;i<n_neverShotedField && neverShotedField[i]!=p;i++);
+
+      if(i!=n_neverShotedField)  tabLeft(i);
+
+}
+Point Player::createRandomShot(){
+    if(n_neverShotedField <=0) throw "nevershuted field is empty";
+    int n = rand()%n_neverShotedField;
+    Point pointShot = neverShotedField[n];
+
+   // printf("\n %d %d   ",pointShot.x,pointShot.y);
+    tabLeft(n);
+    return pointShot;
+}
+
+
+//void Player::shot(Player& p) {
+//    int x;
+//    int y;
+//    int count=0;
+//    //repeat until we reach a new point or the point isn't point0
+//    x=1+rand() % BOARD_SIZE;
+//    y=1+rand() % BOARD_SIZE;
+//    while (std::count(already_shoted.begin(), already_shoted.end(), shot_coordinate) != 0 || p.pole[x][y].isKilShip()) {
+//         count++;
+//         if(count>BOARD_SIZE*BOARD_SIZE) throw "no empty square";
+//         x=1+rand() % BOARD_SIZE;
+//         y=1+rand() % BOARD_SIZE;
+//        shot_coordinate.setXY(x,y);
+//    }
+//    already_shoted.push_back(shot_coordinate);
+//    message = "";
+
+//    if(p.pole[x][y].isShip()){
+//       //ship is wond or kil
+//       p.pole[x][y].wound(x,y);
+//       message =  " wound an enemy ship\n";
+//       p.pole[x][y].setType(-2);
+//       if(p.pole[x][y].kil()){
+//           p.n_Ships--;
+//           p.create_environment(p.pole[x][y].getDeck(),p.pole[x][y].getX(),p.pole[x][y].getY(),p.pole[x][y].getVert(),kilShip);
+//          // p.printPole1();
+//       }
+
+//       //echo
+//       if(p.pole[x][y].getVert() == 1){
+//           for(int i=1;p.pole[x][y+i].isShip();p.pole[x][y+i].wound(x,y),i++);
+//           for(int i=1;p.pole[x][y-i].isShip();p.pole[x][y-i].wound(x,y),i++);
+//       }
+//       else{
+//           for(int i=1;p.pole[x+i][y].isShip();p.pole[x+i][y].wound(x,y),i++);
+//           for(int i=1;p.pole[x-i][y].isShip();p.pole[x-i][y].wound(x,y),i++);
+//       }
+//    }
+//    else    message = " miss \n";
+//}
 
 
 

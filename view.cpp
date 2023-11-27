@@ -2,27 +2,18 @@
 
 View::View()
 {
-
-    for (int i = 0; i < BOARD_SIZE; i++) {
-
-        for (int j = 0; j < BOARD_SIZE; j++) {
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = 0; j < BOARD_SIZE; j++)
             boardShips[i][j] = ' ';
-        }
-    }
-
-
 }
 void View::erase(){
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        for (int j = 0; j < BOARD_SIZE; j++) {
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = 0; j < BOARD_SIZE; j++)
             boardShips[i][j] = ' ';
-        }
-    }
-
 }
 void View::setcur(int x,int y)
 {
-    COORD coord; coord.X = x; coord.Y = y; SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+     COORD coord; coord.X = x; coord.Y = y; SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 void View::print_result_board(Player& activePlayer,Player& passivePlayer) {
 
@@ -36,11 +27,7 @@ void View::print_result_board(Player& activePlayer,Player& passivePlayer) {
         int x = already_shoted[i].x;
         int y = already_shoted[i].y;
         boardShips[x-1][y-1] = '*';
-
     }
-
-
-
     printf("\n ");
     printf(" ");
     for (int p = 0; p < BOARD_SIZE; p++) {
@@ -66,9 +53,4 @@ void View::print_result_board(Player& activePlayer,Player& passivePlayer) {
 
     }
     printf("\n ");
-
-//    Sleep(50);
-//    system("cls");
-
- setcur(0,0);
 }

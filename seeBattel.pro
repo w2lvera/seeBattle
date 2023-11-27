@@ -22,4 +22,8 @@ HEADERS += \
     player.h \
     point.h \
     view.h \
-    ship.h
+    ship.h \
+    playerstrategy.h \
+    playerstrategysimple.h \
+    playerstrategheuristic.h \
+    playerstrategysyper.h

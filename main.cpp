@@ -4,6 +4,6 @@
 int main(){
    GameAll gameAll;
    gameAll.run();
-   printf("\n winner is %s                               ",gameAll.getWinner());
+    printf("\n winner is %s                               ",gameAll.getWinner());
     return 0;
 }

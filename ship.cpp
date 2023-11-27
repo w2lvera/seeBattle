@@ -44,10 +44,7 @@ bool Ship::kil(){return deckShot==0;}
 //    this->vert=s.vert;
 //    this->y =s.y;
 //    this->deckShot = s.deckShot;
-//    for(int i=0;i<4;i++){
-//        this->wounds[i][0]=s.wounds[i][0];
-//        this->wounds[i][1]=s.wounds[i][1];
-//    }
+//    this->type = s.type;
 //    return *this;
 //}
 bool Ship::operator != (Ship& s){

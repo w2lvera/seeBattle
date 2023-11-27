@@ -12,37 +12,59 @@
 #define BOARD_SIZE 10
 #define BOARD_SIZE_BIG BOARD_SIZE+2
 #define N_SHIPS 10
+#include "playerstrategy.h"
 class Player
 {
-private:
-    int find_index(Point coords, std::vector<Point> vec);
-    bool check_for_ship_positioning(int x, int y, std::vector<Point> sub_vector);
-    void create_environment(int x,int y,int deck,int vert,Ship& s);
-    int veriffication(int x,int y,int deck,int vert);
-public:
-    std::string name;
-    std::string message="";
-    Ship pole[BOARD_SIZE_BIG][BOARD_SIZE_BIG];
 
-    Ship emptyShip{-1,-1,-1,0};
-    Ship ship0{0,0,0,0};
-    Ship kilShip{0,0,0,0};
-    void printPole();
-    void printPole1();
-    void create_ships();
+private:
+    ///////////////// player variable //////////////////
+    std::string name;
     int n_Ships;
+    void tabLeft(int pointDel);
+public:void deleteIndex(int x,int y);
+
+public:
+    ////////////////// play strategy/////////////////
+    PlayerStrategy* ps;
+    void setPlayerStrategy(PlayerStrategy* ps){
+        this->ps = ps;
+    }
+    void shot(Player& p){
+        ps->shot(*this,p);
+    }
+
+    std::string message="";
+    /////////////// playing field /////////////////////
+
+    Ship pole[BOARD_SIZE_BIG][BOARD_SIZE_BIG];
+    Ship emptyShip{-1,-1,-1,0}; // ship to indicate empty field: number = -1
+    // ship to indicate the surrounding fields of a ship
+    Ship ship0{0,0,0,0}; //used when forming a field with ships: number = 0
+    // ship to indicate the surrounding fields of kil ship
+    Ship kilShip{0,0,0,0};// type=-3: used for heuristic strategy and super strategy
+    int round=0;//used for super strategy
+    Point pointWound;//Point of wound ship: used for super strategy
+    /////////////////////// used for shot /////////////
     std::vector<Point> already_shoted;
-    Point shot_coordinate;
-    int hp;
-   // Player(const char* str);
+    Point neverShotedField[BOARD_SIZE*BOARD_SIZE];
+    int n_neverShotedField = BOARD_SIZE*BOARD_SIZE;
+    Point createRandomShot();// create a random shot
+
+    ///////////////////// function for debugging //////
+    void printPole();//help
+    void printPole1();//help
+    //////////////////// function for creating ships///////
+    void create_ships();
+    void create_environment(int x,int y,int deck,int vert,Ship& s);
+    void delete_environment(int x,int y,int deck,int vert);
+    int veriffication(int x,int y,int deck,int vert);
+    //////////// function class ////////////////////////////
     Player();
     const char* getName();
-//    void create_player_ships();
-//    std::vector<Point>& getPlayerShips();
     std::vector<Point>& getAlready_shoted();
     void setMessage(std::string str);
     const char* getMessage();
-    void shot(Player& p);
+
     void decreaseShips();
     int getShips();
     void setName(std::string str);
